@@ -3,31 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GST Tax Invoice 33 - DROP CARS</title>
+<title>GST Tax Invoice - DROP CARS</title>
 <style>
   @page { size: A4; margin: 10mm; }
   * { box-sizing: border-box; }
   body { margin: 0; background: #e9edf2; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #000; }
+  .toolbar { max-width: 210mm; margin: 10px auto 0; padding: 0 4px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-size: 10pt; }
+  .toolbar button { background: #1b3a5c; color: #fff; border: 0; padding: 10px 18px; font-size: 11pt; font-weight: bold; border-radius: 4px; cursor: pointer; }
+  .toolbar span { color: #444; }
   .page { width: 210mm; min-height: 297mm; margin: 10px auto; padding: 10mm; background: #fff; }
   table { width: 100%; border-collapse: collapse; }
   td, th { border: 1px solid #000; padding: 6px 8px; vertical-align: middle; }
   .gap { height: 18px; }
 
-  /* header */
+  [contenteditable] { outline: none; }
+  @media screen { [contenteditable]:hover { background: #fff8d6; } [contenteditable]:focus { background: #fff3b0; } }
+
   .head { background: #1b3a5c; color: #fff; }
-  .head td { border: 1px solid #000; }
   .brand { font-size: 22pt; font-weight: bold; padding: 12px 10px; width: 55%; }
   .inv-title { background: #2d6aa6; font-weight: bold; font-size: 13pt; line-height: 1.2; }
   .inv-title small { display: block; font-size: 8.5pt; font-weight: normal; }
-  .contact { border: 0; border-bottom: 1px solid #999; font-size: 8.5pt; color: #333; padding: 4px 0; }
+  .contact { border-bottom: 1px solid #999; font-size: 8.5pt; color: #333; padding: 4px 0; }
   .contact span { margin-right: 16px; }
 
-  /* label cells */
   .lbl { background: #bccbdc; font-weight: bold; width: 17%; }
   .val { width: 33%; }
   .sec { background: #2d6aa6; color: #fff; font-weight: bold; font-size: 11pt; text-align: left; }
 
-  /* items */
   .items th { background: #2d6aa6; color: #fff; text-align: center; }
   .items th.l { text-align: left; }
   .items th.r { text-align: right; }
@@ -35,9 +37,8 @@
   .items td.r { text-align: right; }
   .items td.n { width: 30px; }
   .items .tot-lbl { font-weight: bold; text-align: left; }
-  .items .grand-lbl { white-space: nowrap; background: #1b3a5c; color: #fff; font-weight: bold; }
+  .items .grand-lbl { background: #1b3a5c; color: #fff; font-weight: bold; white-space: nowrap; }
   .items .grand-val { background: #1b3a5c; color: #fff; text-align: right; }
-  .items .blank { border: 1px solid #000; }
 
   .words { background: #bccbdc; font-weight: bold; text-align: center; padding: 4px; margin-top: 8px; font-size: 9.5pt; }
   .regards { margin: 16px 0 6px; }
@@ -46,6 +47,7 @@
   .note { text-align: center; font-style: italic; font-size: 8.5pt; color: #444; margin-top: 8px; }
 
   @media print {
+    .toolbar { display: none; }
     body { background: #fff; }
     .page { margin: 0; padding: 0; width: auto; min-height: 0; }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -53,9 +55,14 @@
 </style>
 </head>
 <body>
+
+<div class="toolbar">
+  <button type="button" onclick="downloadPDF()">Download PDF</button>
+  <span>Click any text on the invoice to edit it. Amounts, GST, total and amount in words update automatically.</span>
+</div>
+
 <div class="page">
 
-  <!-- HEADER -->
   <table class="head">
     <tr>
       <td class="brand">DROP CARS</td>
@@ -71,55 +78,52 @@
 
   <div class="gap"></div>
 
-  <!-- CUSTOMER / INVOICE -->
   <table>
     <tr>
-      <td class="lbl">Invoice No</td><td class="val">33</td>
-      <td class="lbl">Customer</td><td class="val"></td>
+      <td class="lbl">Invoice No</td><td class="val" id="invNo" contenteditable>33</td>
+      <td class="lbl">Customer</td><td class="val" contenteditable></td>
     </tr>
     <tr>
-      <td class="lbl">Invoice Date</td><td class="val">17/10/2026</td>
-      <td class="lbl">Company</td><td class="val"></td>
+      <td class="lbl">Invoice Date</td><td class="val" contenteditable>17/10/2026</td>
+      <td class="lbl">Company</td><td class="val" contenteditable></td>
     </tr>
     <tr>
-      <td class="lbl">Trip Type</td><td class="val">One Way</td>
-      <td class="lbl">Address</td><td class="val"></td>
+      <td class="lbl">Trip Type</td><td class="val" contenteditable>One Way</td>
+      <td class="lbl">Address</td><td class="val" contenteditable></td>
     </tr>
     <tr>
-      <td class="lbl">Pickup Location</td><td class="val">Dharmapuri, TN</td>
-      <td class="lbl">GSTIN</td><td class="val"></td>
+      <td class="lbl">Pickup Location</td><td class="val" contenteditable>Dharmapuri, TN</td>
+      <td class="lbl">GSTIN</td><td class="val" contenteditable></td>
     </tr>
     <tr>
-      <td class="lbl">Drop Location</td><td class="val">Bangalore Airport, KA</td>
-      <td class="lbl">Phone</td><td class="val"></td>
+      <td class="lbl">Drop Location</td><td class="val" contenteditable>Bangalore Airport, KA</td>
+      <td class="lbl">Phone</td><td class="val" contenteditable></td>
     </tr>
   </table>
 
   <div class="gap"></div>
 
-  <!-- TRIP DETAILS -->
   <table>
     <tr><td class="sec" colspan="4">Trip Details</td></tr>
     <tr>
-      <td class="lbl">Route</td><td class="val">Dharmapuri to Bangalore Airport</td>
-      <td class="lbl">Driver Name</td><td class="val"></td>
+      <td class="lbl">Route</td><td class="val" contenteditable>Dharmapuri to Bangalore Airport</td>
+      <td class="lbl">Driver Name</td><td class="val" contenteditable></td>
     </tr>
     <tr>
-      <td class="lbl">Vehicle Name</td><td class="val"></td>
-      <td class="lbl">Vehicle Type</td><td class="val">Sedan (4+1)</td>
+      <td class="lbl">Vehicle Name</td><td class="val" contenteditable></td>
+      <td class="lbl">Vehicle Type</td><td class="val" contenteditable>Sedan (4+1)</td>
     </tr>
     <tr>
-      <td class="lbl">Pick up Date &amp; Time</td><td class="val">13/10/2026 &amp; 08:30 AM</td>
-      <td class="lbl">Vehicle No</td><td class="val"></td>
+      <td class="lbl">Pick up Date &amp; Time</td><td class="val" contenteditable>13/10/2026 &amp; 08:30 AM</td>
+      <td class="lbl">Vehicle No</td><td class="val" contenteditable></td>
     </tr>
     <tr>
-      <td class="lbl">Coverage</td><td colspan="3">175 KM</td>
+      <td class="lbl">Coverage</td><td colspan="3"><span id="cov">175</span> KM</td>
     </tr>
   </table>
 
   <div class="gap"></div>
 
-  <!-- ITEMS -->
   <table class="items">
     <tr>
       <th class="n">#</th>
@@ -128,17 +132,33 @@
       <th style="width:16%">Rate (Rs.)</th>
       <th class="r" style="width:19%">Amount (Rs.)</th>
     </tr>
-    <tr><td>1</td><td>Dharmapuri to Bangalore Airport</td><td class="c">175</td><td class="c">15</td><td class="r">2625.00</td></tr>
-    <tr><td>2</td><td>Driver Allowance</td><td class="c">Per Trip</td><td class="c">400</td><td class="r">400.00</td></tr>
-    <tr><td>3</td><td>Toll</td><td class="c">Altogether</td><td class="c">Altogether</td><td class="r">395.00</td></tr>
-    <tr><td>4</td><td>Permit</td><td class="c">Altogether</td><td class="c">Altogether</td><td class="r">400.00</td></tr>
-    <tr><td class="blank" colspan="3"></td><td class="tot-lbl">Taxable Value</td><td class="r">2625.00</td></tr>
-    <tr><td class="blank" colspan="3"></td><td class="tot-lbl">CGST (2.5%)</td><td class="r">65.63</td></tr>
-    <tr><td class="blank" colspan="3"></td><td class="tot-lbl">SGST (2.5%)</td><td class="r">65.63</td></tr>
-    <tr><td class="blank" colspan="3"></td><td class="grand-lbl">Total Bill Amount</td><td class="grand-val">3951.26</td></tr>
+    <tr>
+      <td>1</td><td contenteditable>Dharmapuri to Bangalore Airport</td>
+      <td class="c" id="km" contenteditable>175</td><td class="c" id="rate" contenteditable>15</td>
+      <td class="r" id="a1"></td>
+    </tr>
+    <tr>
+      <td>2</td><td contenteditable>Driver Allowance</td>
+      <td class="c" contenteditable>Per Trip</td><td class="c" contenteditable></td>
+      <td class="r amt" id="a2" contenteditable>400</td>
+    </tr>
+    <tr>
+      <td>3</td><td contenteditable>Toll</td>
+      <td class="c" contenteditable>Altogether</td><td class="c" contenteditable>Altogether</td>
+      <td class="r amt" id="a3" contenteditable>395</td>
+    </tr>
+    <tr>
+      <td>4</td><td contenteditable>Permit</td>
+      <td class="c" contenteditable>Altogether</td><td class="c" contenteditable>Altogether</td>
+      <td class="r amt" id="a4" contenteditable>400</td>
+    </tr>
+    <tr><td colspan="3"></td><td class="tot-lbl">Taxable Value</td><td class="r" id="taxable"></td></tr>
+    <tr><td colspan="3"></td><td class="tot-lbl">CGST (2.5%)</td><td class="r" id="cgst"></td></tr>
+    <tr><td colspan="3"></td><td class="tot-lbl">SGST (2.5%)</td><td class="r" id="sgst"></td></tr>
+    <tr><td colspan="3"></td><td class="grand-lbl">Total Bill Amount</td><td class="grand-val" id="total"></td></tr>
   </table>
 
-  <div class="words">Bill Amount: INR Three Thousand Nine Hundred &amp; Fifty One Rupees and Twenty Six Paise Only</div>
+  <div class="words">Bill Amount: INR <span id="words"></span> Only</div>
 
   <div class="regards">Regards, <b>DROP CARS</b></div>
   <div class="foot">
@@ -149,5 +169,79 @@
   <div class="note">This is a computer-generated invoice. No signature required.</div>
 
 </div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var num = function (el) { return parseFloat(String(el.textContent).replace(/[^0-9.\-]/g, '')) || 0; };
+  var money = function (n) { return n.toFixed(2); };
+  var cents = function (n) { return Math.round(n * 100) / 100; };
+
+  var ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve',
+    'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+  var tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+  function below100(n) { return n < 20 ? ones[n] : tens[Math.floor(n / 10)] + (n % 10 ? ' ' + ones[n % 10] : ''); }
+  function below1000(n) {
+    var h = Math.floor(n / 100), r = n % 100, s = '';
+    if (h) s += ones[h] + ' Hundred';
+    if (r) s += (h ? ' & ' : '') + below100(r);
+    return s;
+  }
+  function words(n) {
+    if (n === 0) return 'Zero';
+    var parts = [], units = [[10000000, 'Crore'], [100000, 'Lakh'], [1000, 'Thousand']];
+    units.forEach(function (u) {
+      var q = Math.floor(n / u[0]);
+      if (q) { parts.push(below100(q) + ' ' + u[1]); n %= u[0]; }
+    });
+    var rest = below1000(n);
+    if (rest) parts.push(parts.length && n < 100 ? '& ' + rest : rest);
+    return parts.join(' ');
+  }
+
+  function recalc() {
+    var a1 = cents(num($('km')) * num($('rate')));
+    var taxable = a1;
+    var gst = cents(taxable * 0.025);
+    var total = cents(taxable + gst * 2 + num($('a2')) + num($('a3')) + num($('a4')));
+    var rupees = Math.floor(total), paise = Math.round((total - rupees) * 100);
+
+    $('a1').textContent = money(a1);
+    $('taxable').textContent = money(taxable);
+    $('cgst').textContent = money(gst);
+    $('sgst').textContent = money(gst);
+    $('total').textContent = money(total);
+    $('cov').textContent = $('km').textContent.trim();
+    $('words').textContent = words(rupees) + ' Rupees' + (paise ? ' and ' + words(paise) + ' Paise' : '');
+  }
+
+  function formatAmounts() {
+    document.querySelectorAll('.amt').forEach(function (el) { if (el.textContent.trim()) el.textContent = money(num(el)); });
+  }
+
+  document.addEventListener('input', recalc);
+  document.addEventListener('focusout', function (e) { if (e.target.classList && e.target.classList.contains('amt')) formatAmounts(); });
+  document.addEventListener('paste', function (e) {
+    if (!e.target.isContentEditable) return;
+    e.preventDefault();
+    document.execCommand('insertText', false, (e.clipboardData || window.clipboardData).getData('text'));
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target.isContentEditable) e.preventDefault();
+  });
+
+  window.downloadPDF = function () {
+    formatAmounts();
+    var old = document.title;
+    document.title = 'DropCars_Invoice_' + $('invNo').textContent.trim().replace(/[^\w\-]+/g, '_');
+    window.print();
+    document.title = old;
+  };
+
+  formatAmounts();
+  recalc();
+})();
+</script>
 </body>
 </html>
